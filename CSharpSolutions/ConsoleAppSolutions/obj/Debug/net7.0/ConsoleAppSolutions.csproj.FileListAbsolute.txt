@@ -1,0 +1,15 @@
+C:\Code\for fun\AdventOfCode\CSharpSolutions\ConsoleAppSolutions\obj\Debug\net7.0\ConsoleAppSolutions.csproj.AssemblyReference.cache
+C:\Code\for fun\AdventOfCode\CSharpSolutions\ConsoleAppSolutions\obj\Debug\net7.0\ConsoleAppSolutions.GeneratedMSBuildEditorConfig.editorconfig
+C:\Code\for fun\AdventOfCode\CSharpSolutions\ConsoleAppSolutions\obj\Debug\net7.0\ConsoleAppSolutions.AssemblyInfoInputs.cache
+C:\Code\for fun\AdventOfCode\CSharpSolutions\ConsoleAppSolutions\obj\Debug\net7.0\ConsoleAppSolutions.AssemblyInfo.cs
+C:\Code\for fun\AdventOfCode\CSharpSolutions\ConsoleAppSolutions\obj\Debug\net7.0\ConsoleAppSolutions.csproj.CoreCompileInputs.cache
+C:\Code\for fun\AdventOfCode\CSharpSolutions\ConsoleAppSolutions\bin\Debug\net7.0\ConsoleAppSolutions.exe
+C:\Code\for fun\AdventOfCode\CSharpSolutions\ConsoleAppSolutions\bin\Debug\net7.0\ConsoleAppSolutions.deps.json
+C:\Code\for fun\AdventOfCode\CSharpSolutions\ConsoleAppSolutions\bin\Debug\net7.0\ConsoleAppSolutions.runtimeconfig.json
+C:\Code\for fun\AdventOfCode\CSharpSolutions\ConsoleAppSolutions\bin\Debug\net7.0\ConsoleAppSolutions.dll
+C:\Code\for fun\AdventOfCode\CSharpSolutions\ConsoleAppSolutions\bin\Debug\net7.0\ConsoleAppSolutions.pdb
+C:\Code\for fun\AdventOfCode\CSharpSolutions\ConsoleAppSolutions\obj\Debug\net7.0\ConsoleAppSolutions.dll
+C:\Code\for fun\AdventOfCode\CSharpSolutions\ConsoleAppSolutions\obj\Debug\net7.0\refint\ConsoleAppSolutions.dll
+C:\Code\for fun\AdventOfCode\CSharpSolutions\ConsoleAppSolutions\obj\Debug\net7.0\ConsoleAppSolutions.pdb
+C:\Code\for fun\AdventOfCode\CSharpSolutions\ConsoleAppSolutions\obj\Debug\net7.0\ConsoleAppSolutions.genruntimeconfig.cache
+C:\Code\for fun\AdventOfCode\CSharpSolutions\ConsoleAppSolutions\obj\Debug\net7.0\ref\ConsoleAppSolutions.dll
