@@ -1,11 +1,11 @@
-﻿namespace ConsoleAppSolutions.Day1
+﻿namespace ConsoleAppSolutions.Year2022.Day1
 {
     internal class CalorieCounting
     {
-        static readonly string exampleInput = @"C:\Code\for fun\AdventOfCode\CSharpSolutions\ConsoleAppSolutions\Day1\Star1\InputExample.txt";
-        static readonly string actualInput = @"C:\Code\for fun\AdventOfCode\CSharpSolutions\ConsoleAppSolutions\Day1\Star1\InputActual.txt";
+        static readonly string exampleInput = @"C:\Code\for fun\AdventOfCode\CSharpSolutions\ConsoleAppSolutions\Day1\InputExample.txt";
+        static readonly string actualInput = @"C:\Code\for fun\AdventOfCode\CSharpSolutions\ConsoleAppSolutions\Day1\InputActual.txt";
 
-        public static void GetElfWithMostCalories(bool useExampleInput)
+        public static void Play(bool useExampleInput = false)
         {
             var textFile = useExampleInput ? exampleInput : actualInput;
 
