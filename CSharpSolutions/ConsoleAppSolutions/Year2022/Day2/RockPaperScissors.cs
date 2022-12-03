@@ -1,13 +1,10 @@
 ﻿namespace ConsoleAppSolutions.Year2022.Day2
 {
-    internal static class RockPaperScissors
+    public static class RockPaperScissors
     {
-        static readonly string exampleInput = @"C:\Code\for fun\AdventOfCode\CSharpSolutions\ConsoleAppSolutions\Day2\InputExample.txt";
-        static readonly string actualInput = @"C:\Code\for fun\AdventOfCode\CSharpSolutions\ConsoleAppSolutions\Day2\InputActual.txt";
-
         public static void PlayForStar1(bool useExampleInput = false)
         {
-            var textFile = useExampleInput ? exampleInput : actualInput;
+            var textFile = Play2022Solutions.GetInputFile(2, useExampleInput);
 
             if (File.Exists(textFile))
             {
@@ -43,7 +40,7 @@
 
         public static void PlayForStar2(bool useExampleInput = false)
         {
-            var textFile = useExampleInput ? exampleInput : actualInput;
+            var textFile = Play2022Solutions.GetInputFile(2, useExampleInput);
 
             if (File.Exists(textFile))
             {

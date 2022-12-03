@@ -2,12 +2,9 @@
 {
     internal class CalorieCounting
     {
-        static readonly string exampleInput = @"C:\Code\for fun\AdventOfCode\CSharpSolutions\ConsoleAppSolutions\Day1\InputExample.txt";
-        static readonly string actualInput = @"C:\Code\for fun\AdventOfCode\CSharpSolutions\ConsoleAppSolutions\Day1\InputActual.txt";
-
         public static void Play(bool useExampleInput = false)
         {
-            var textFile = useExampleInput ? exampleInput : actualInput;
+            var textFile = Play2022Solutions.GetInputFile(1, useExampleInput);
 
             if (File.Exists(textFile))
             {
