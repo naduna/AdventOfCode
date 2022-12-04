@@ -1,10 +1,10 @@
-﻿using ConsoleAppSolutions.Year2022.Day2;
-using ConsoleAppSolutions.Year2022.Day3;
+﻿using ConsoleAppSolutions.Year2022.Day3;
 
 internal class Program
 {
     private static void Main(string[] args)
     {
-        RucksackReorganization.PlayForStar2();
+        CampCleanup.PlayForStar1();
+        CampCleanup.PlayForStar2();
     }
 }

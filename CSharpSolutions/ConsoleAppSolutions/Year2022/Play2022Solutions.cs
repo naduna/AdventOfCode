@@ -32,6 +32,10 @@ namespace ConsoleAppSolutions.Year2022
                     RucksackReorganization.PlayForStar1();
                     RucksackReorganization.PlayForStar2();
                     break;
+                case 4:
+                    CampCleanup.PlayForStar1();
+                    CampCleanup.PlayForStar2();
+                    break;
             }
         }
     }
