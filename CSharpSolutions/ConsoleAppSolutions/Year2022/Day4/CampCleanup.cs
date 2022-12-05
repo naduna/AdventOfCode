@@ -1,4 +1,4 @@
-﻿namespace ConsoleAppSolutions.Year2022.Day3
+﻿namespace ConsoleAppSolutions.Year2022.Day4
 {
     public static class CampCleanup
     {

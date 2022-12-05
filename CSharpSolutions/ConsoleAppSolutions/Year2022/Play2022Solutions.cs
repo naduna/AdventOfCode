@@ -1,6 +1,8 @@
 ﻿using ConsoleAppSolutions.Year2022.Day1;
 using ConsoleAppSolutions.Year2022.Day2;
 using ConsoleAppSolutions.Year2022.Day3;
+using ConsoleAppSolutions.Year2022.Day4;
+using ConsoleAppSolutions.Year2022.Day5;
 
 namespace ConsoleAppSolutions.Year2022
 {
@@ -35,6 +37,10 @@ namespace ConsoleAppSolutions.Year2022
                 case 4:
                     CampCleanup.PlayForStar1();
                     CampCleanup.PlayForStar2();
+                    break;
+                case 5:
+                    SupplyStacks.PlayForStar1();
+                    SupplyStacks.PlayForStar2();
                     break;
             }
         }
