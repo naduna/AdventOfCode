@@ -3,6 +3,7 @@ using ConsoleAppSolutions.Year2022.Day2;
 using ConsoleAppSolutions.Year2022.Day3;
 using ConsoleAppSolutions.Year2022.Day4;
 using ConsoleAppSolutions.Year2022.Day5;
+using ConsoleAppSolutions.Year2022.Day6;
 
 namespace ConsoleAppSolutions.Year2022
 {
@@ -41,6 +42,10 @@ namespace ConsoleAppSolutions.Year2022
                 case 5:
                     SupplyStacks.PlayForStar1();
                     SupplyStacks.PlayForStar2();
+                    break;
+                case 6:
+                    TuningTrouble.PlayForStar1();
+                    TuningTrouble.PlayForStar2();
                     break;
             }
         }
