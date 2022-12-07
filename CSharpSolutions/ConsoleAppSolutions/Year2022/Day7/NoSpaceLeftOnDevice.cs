@@ -40,7 +40,7 @@
 
             foreach (var command in commands)
             {
-                var lines = command.Split("\r\n");
+                var lines = command.Split(Environment.NewLine);
                 var commandLine = lines.First().Trim();
                 if (commandLine.StartsWith("cd"))
                 {
@@ -82,22 +82,6 @@
                 };
             }
 
-            private DeviceDirectory? MoveOut()
-            {
-                return Parent;
-            }
-
-            private DeviceDirectory MoveInToChild(string name)
-            { 
-                var child = Children.FirstOrDefault(c => c.Name == name);
-                if (child == null)
-                {
-                    return new DeviceDirectory(name, this);
-                }
-
-                return child;
-            }
-
             public void FillDirectoryWithListedItems(IEnumerable<string> listedItems)
             {
                 foreach (var item in listedItems)
@@ -125,7 +109,7 @@
                 return filesSize;
             }
 
-            public List<DeviceDirectory> GetFilteredDirectories(long size, DirectoryFilterForSizeBy filterForSizeBy)
+            public IEnumerable<DeviceDirectory> GetFilteredDirectories(long size, DirectoryFilterForSizeBy filterForSizeBy)
             {
                 var filteredDirectories = new List<DeviceDirectory>();
 
@@ -140,6 +124,22 @@
                 }
 
                 return filteredDirectories;
+            }
+
+            private DeviceDirectory? MoveOut()
+            {
+                return Parent;
+            }
+
+            private DeviceDirectory MoveInToChild(string name)
+            {
+                var child = Children.FirstOrDefault(c => c.Name == name);
+                if (child == null)
+                {
+                    return new DeviceDirectory(name, this);
+                }
+
+                return child;
             }
 
             private bool FilterForSize(long size, DirectoryFilterForSizeBy filterForSizeBy)

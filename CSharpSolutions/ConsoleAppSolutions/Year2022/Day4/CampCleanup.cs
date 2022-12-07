@@ -7,14 +7,14 @@
 
         public override void PlayForStar1(bool useExampleInput = false)
         {
-            var countContaining = GetCountOfOverlappingPairsByCondition(useExampleInput, GetIsContained);
-            
-            Console.WriteLine($"star 1 result: {countContaining}");
+            var countFullyContaining = GetCountOfOverlappingPairsByCondition(useExampleInput, IsFullyContained);
+
+            Console.WriteLine($"star 1 result: {countFullyContaining}");
         }
 
         public override void PlayForStar2(bool useExampleInput = false)
         {
-            var countOverlapping = GetCountOfOverlappingPairsByCondition(useExampleInput, GetIsOverlapping);
+            var countOverlapping = GetCountOfOverlappingPairsByCondition(useExampleInput, IsOverlapping);
 
             Console.WriteLine($"star 2 result: {countOverlapping}");
         }
@@ -46,12 +46,12 @@
             return (numbers.First(), numbers.Last());
         }
 
-        private static bool GetIsContained((int from, int to) toBeContained, (int from, int to) container)
+        private static bool IsFullyContained((int from, int to) toBeContained, (int from, int to) container)
         {
             return toBeContained.from >= container.from && toBeContained.to <= container.to;
         }
 
-        private static bool GetIsOverlapping((int from, int to) toBeContained, (int from, int to) container)
+        private static bool IsOverlapping((int from, int to) toBeContained, (int from, int to) container)
         {
             return toBeContained.from <= container.to && toBeContained.to >= container.from;
         }

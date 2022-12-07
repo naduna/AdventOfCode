@@ -1,9 +1,10 @@
-﻿namespace ConsoleAppSolutions;
-
-public class Program
+﻿namespace ConsoleAppSolutions
 {
-    private static void Main(string[] args)
+    public class Program
     {
-        SolutionPlayer.Play2022SolutionsByDay(7);
+        private static void Main(string[] args)
+        {
+            SolutionPlayer.Play2022SolutionsByDay(7);
+        }
     }
 }

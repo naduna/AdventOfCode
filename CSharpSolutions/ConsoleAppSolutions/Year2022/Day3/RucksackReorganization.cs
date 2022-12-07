@@ -15,16 +15,9 @@
                 var half = line.Length / 2;
                 var firstCompartment = line[..half];
                 var secondCompartment = line[half..];
-                var duplicate = firstCompartment.FirstOrDefault(f => secondCompartment.Contains(f, StringComparison.Ordinal));
 
-                if (!string.IsNullOrEmpty(duplicate.ToString()))
-                {
-                    var isLowerCase = duplicate.ToString().Equals(duplicate.ToString().ToLower(), StringComparison.Ordinal);
-                    var priority = isLowerCase ? duplicate - 96 : duplicate - 38;
-                    priorityOfDuplicateItemPerRucksack.Add(priority);
-
-                    Console.WriteLine($"{duplicate}: {priority}");
-                }
+                var duplicate = firstCompartment.FirstOrDefault(secondCompartment.Contains);
+                priorityOfDuplicateItemPerRucksack.Add(GetPriority(duplicate));
             }
 
             var result = priorityOfDuplicateItemPerRucksack.Sum();
@@ -45,13 +38,9 @@
 
                 if (groupCounter % 3 == 0)
                 {
-                    var duplicate = line.FirstOrDefault(i => rucksackPerGroup.All(r => r.Contains(i, StringComparison.Ordinal)));
+                    var duplicate = line.FirstOrDefault(i => rucksackPerGroup.All(r => r.Contains(i)));
+                    priorityOfBadgesPerGroup.Add(GetPriority(duplicate));
 
-                    var isLowerCase = duplicate.ToString().Equals(duplicate.ToString().ToLower(), StringComparison.Ordinal);
-                    var priority = isLowerCase ? duplicate - 96 : duplicate - 38;
-                    priorityOfBadgesPerGroup.Add(priority);
-
-                    Console.WriteLine($"{duplicate}: {priority}");
                     groupCounter = 0;
                     rucksackPerGroup.Clear();
                 }
@@ -63,6 +52,14 @@
 
             var result = priorityOfBadgesPerGroup.Sum();
             Console.WriteLine($"star 2 result: {result}");
+        }
+
+        private static int GetPriority(char duplicate)
+        {
+            var priority = char.IsLower(duplicate) ? duplicate - 96 : duplicate - 38;
+            Console.WriteLine($"{duplicate}: {priority}");
+
+            return priority;
         }
     }
 }

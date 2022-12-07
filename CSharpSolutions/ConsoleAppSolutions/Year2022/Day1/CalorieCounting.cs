@@ -8,7 +8,7 @@
         public override void PlayForStar1(bool useExampleInput = false)
         {
             var elfNumberWithItems = GetElvesWithItems(useExampleInput);
-            
+
             var resultOfTopThree = elfNumberWithItems.Select(e => e.Value.Sum()).OrderByDescending(e => e).Take(3);
             Console.WriteLine($"Top three elves have in total calories: {resultOfTopThree.Sum()}");
         }

@@ -11,6 +11,18 @@ namespace ConsoleAppSolutions
 {
     public static class SolutionPlayer
     {
+        public static void PlaySolutionsByYearAndDay(int year, int day)
+        {
+            switch (year)
+            {
+                case 2022:
+                    Play2022SolutionsByDay(day);
+                    break;
+                default:
+                    throw new NotImplementedException(); // not yet :D
+            }
+        }
+
         public static void Play2022SolutionsByDay(int day)
         {
             switch (day)
@@ -36,6 +48,8 @@ namespace ConsoleAppSolutions
                 case 7:
                     PlayBothStars<NoSpaceLeftOnDevice>();
                     break;
+                default:
+                    throw new NotImplementedException(); // not yet :D
             }
         }
 

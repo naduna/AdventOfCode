@@ -54,14 +54,14 @@
         private (string crateBuilding, string[] stackingCommands) GetCleanedInput(bool useExampleInput)
         {
             var allText = GetInputTextComplete(useExampleInput);
-            var parts = allText.Split("\r\n\r\n");
+            var parts = allText.Split($"{Environment.NewLine}{Environment.NewLine}");
 
-            return (parts[0], parts[1].Split("\r\n"));
+            return (parts[0], parts[1].Split(Environment.NewLine));
         }
 
         private static Dictionary<int, Stack<string>> BuildCrateStacks(string crateStackText)
         {
-            var crateStacks = crateStackText.Split("\r\n");
+            var crateStacks = crateStackText.Split(Environment.NewLine);
 
             var stacks = crateStacks.Last()
                 .Where(s => !string.IsNullOrWhiteSpace(s.ToString()))
