@@ -1,51 +1,56 @@
 ﻿namespace ConsoleAppSolutions.Year2022.Day1
 {
-    internal class CalorieCounting
+    public class CalorieCounting : DayQuizBase
     {
-        public static void Play(bool useExampleInput = false)
+        public override int Year => 2022;
+        public override int Day => 1;
+
+        public override void PlayForStar1(bool useExampleInput = false)
         {
-            var textFile = Play2022Solutions.GetInputFile(1, useExampleInput);
+            var elfNumberWithItems = GetElvesWithItems(useExampleInput);
+            
+            var resultOfTopThree = elfNumberWithItems.Select(e => e.Value.Sum()).OrderByDescending(e => e).Take(3);
+            Console.WriteLine($"Top three elves have in total calories: {resultOfTopThree.Sum()}");
+        }
 
-            if (File.Exists(textFile))
+        public override void PlayForStar2(bool useExampleInput = false)
+        {
+            var elfNumberWithItems = GetElvesWithItems(useExampleInput);
+
+            var result = elfNumberWithItems.MaxBy(i => i.Value.Sum());
+            Console.WriteLine($"Elf {result.Key} has the most calories: {result.Value.Sum()}");
+        }
+
+        private Dictionary<int, List<int>> GetElvesWithItems(bool useExampleInput)
+        {
+            var lines = GetInputTextByLine(useExampleInput);
+
+            var elfCounter = 1;
+            var elfNumberWithItems = new Dictionary<int, List<int>> { { elfCounter, new List<int>() } };
+
+            foreach (var line in lines)
             {
-                using (StreamReader file = new StreamReader(textFile))
+                if (string.IsNullOrEmpty(line))
                 {
-                    int elfCounter = 1;
-                    string ln;
+                    Console.WriteLine(elfNumberWithItems[elfCounter].Sum());
 
-                    var elfNumberWithItems = new Dictionary<int, List<int>>();
+                    elfCounter++;
                     elfNumberWithItems.Add(elfCounter, new List<int>());
-
-                    while ((ln = file.ReadLine()) != null)
-                    {
-                        if (string.IsNullOrEmpty(ln))
-                        {
-                            Console.WriteLine(elfNumberWithItems[elfCounter].Sum());
-
-                            elfCounter++;
-                            elfNumberWithItems.Add(elfCounter, new List<int>());
-                        }
-                        else
-                        {
-                            elfNumberWithItems[elfCounter].Add(int.Parse(ln));
-                        }
-                    }
-
-                    file.Close();
-                    Console.WriteLine($"File has {elfCounter} elves.");
-
-                    foreach (var elf in elfNumberWithItems.Select(e => e.Value.Sum()).OrderBy(e => e))
-                    {
-                        Console.WriteLine(elf);
-                    }
-
-                    var result = elfNumberWithItems.MaxBy(i => i.Value.Sum());
-                    Console.WriteLine($"Elf {result.Key} has the most calories: {result.Value.Sum()}");
-
-                    var resultOfTopThree = elfNumberWithItems.Select(e => e.Value.Sum()).OrderByDescending(e => e).Take(3);
-                    Console.WriteLine($"Top three elves have in total calories: {resultOfTopThree.Sum()}");
+                }
+                else
+                {
+                    elfNumberWithItems[elfCounter].Add(int.Parse(line));
                 }
             }
+
+            Console.WriteLine($"File has {elfCounter} elves.");
+
+            foreach (var elf in elfNumberWithItems.Select(e => e.Value.Sum()).OrderBy(e => e))
+            {
+                Console.WriteLine(elf);
+            }
+
+            return elfNumberWithItems;
         }
     }
 }

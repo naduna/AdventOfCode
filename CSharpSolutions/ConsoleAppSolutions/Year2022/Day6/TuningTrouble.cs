@@ -1,105 +1,49 @@
 ﻿namespace ConsoleAppSolutions.Year2022.Day6
 {
-    public static class TuningTrouble
+    public class TuningTrouble : DayQuizBase
     {
-        public static void PlayForStar1(bool useExampleInput = false)
+        public override int Year => 2022;
+        public override int Day => 6;
+
+        public override void PlayForStar1(bool useExampleInput = false)
         {
-            var textFile = Play2022Solutions.GetInputFile(6, useExampleInput);
+            var result = GetIndexForFirstStartOfPacketMarker(useExampleInput, 4);
+            Console.WriteLine($"star 1 result: {result}");
+        }
 
-            if (File.Exists(textFile))
+        public override void PlayForStar2(bool useExampleInput = false)
+        {
+            var result = GetIndexForFirstStartOfPacketMarker(useExampleInput, 14);
+            Console.WriteLine($"star 2 result: {result}");
+        }
+
+        private int GetIndexForFirstStartOfPacketMarker(bool useExampleInput, int neededConsecutiveMarkers)
+        {
+            var allText = GetInputTextComplete(useExampleInput);
+
+            var codes = new Queue<char>();
+            var currentIndex = 0;
+
+            for (; currentIndex < allText.Length; currentIndex++)
             {
-                using (StreamReader file = new StreamReader(textFile))
+                var current = allText[currentIndex];
+                Console.WriteLine(current);
+
+                if (codes.Count == neededConsecutiveMarkers)
                 {
-                    var allText = file.ReadToEnd();
-
-                    var codes = new Queue<char>();
-                    int currentIndex = 0;
-
-                    for (; currentIndex < allText.Length; currentIndex++)
+                    if (codes.Distinct().Count() == neededConsecutiveMarkers)
                     {
-                        var current = allText[currentIndex];
-                        Console.WriteLine(current);
-
-                        if (codes.Count == 4)
-                        {
-                            if (codes.Distinct().Count() == 4)
-                            {
-                                break;
-                            }
-                            else
-                            {
-                                codes.Dequeue();
-                            }
-
-                            Console.WriteLine(string.Join(", ", codes));
-                        }
-
-                        codes.Enqueue(current);
+                        break;
                     }
 
-                    file.Close();
-
-                    Console.WriteLine($"star 1 result: {currentIndex}");
+                    codes.Dequeue();
+                    Console.WriteLine(string.Join(", ", codes));
                 }
+
+                codes.Enqueue(current);
             }
-        }
 
-        public static void PlayForStar2(bool useExampleInput = false)
-        {
-            var textFile = Play2022Solutions.GetInputFile(6, useExampleInput);
-
-            if (File.Exists(textFile))
-            {
-                using (StreamReader file = new StreamReader(textFile))
-                {
-                    var allText = file.ReadToEnd();
-
-                    var codes = new Queue<char>();
-                    int currentIndex = 0;
-
-                    for (; currentIndex < allText.Length; currentIndex++)
-                    {
-                        var current = allText[currentIndex];
-                        Console.WriteLine(current);
-
-                        if (codes.Count == 14)
-                        {
-                            if (codes.Distinct().Count() == 14)
-                            {
-                                break;
-                            }
-                            else
-                            {
-                                codes.Dequeue();
-                            }
-
-                            Console.WriteLine(string.Join(", ", codes));
-                        }
-
-                        codes.Enqueue(current);
-                    }
-
-                    file.Close();
-
-                    Console.WriteLine($"star 2 result: {currentIndex}");
-                }
-            }
-        }
-
-        private static (int from, int to) GetRange(string input)
-        {
-            var numbers = input.Split('-').Select(s => int.Parse(s));
-            return (numbers.First(), numbers.Last());
-        }
-
-        private static bool GetIsContained((int from, int to) toBeContained, (int from, int to) container)
-        {
-            return toBeContained.from >= container.from && toBeContained.to <= container.to;
-        }
-
-        private static bool GetIsOverlapping((int from, int to) toBeContained, (int from, int to) container)
-        {
-            return toBeContained.from <= container.to && toBeContained.to >= container.from;
+            return currentIndex;
         }
     }
 }

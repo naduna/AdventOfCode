@@ -1,138 +1,106 @@
 ﻿namespace ConsoleAppSolutions.Year2022.Day2
 {
-    public static class RockPaperScissors
+    public class RockPaperScissors : DayQuizBase
     {
-        public static void PlayForStar1(bool useExampleInput = false)
+        public override int Year => 2022;
+        public override int Day => 2;
+
+        public override void PlayForStar1(bool useExampleInput = false)
         {
-            var textFile = Play2022Solutions.GetInputFile(2, useExampleInput);
+            var lines = GetInputTextByLine(useExampleInput);
 
-            if (File.Exists(textFile))
-            {
-                using (StreamReader file = new StreamReader(textFile))
-                {
-                    string ln;
+            var scoresPerRound = lines
+                .Select(line => GetScoreForRound(line, (myInput, _) => GetActionFromInput(myInput)))
+                .ToList();
 
-                    var scoresPerRound = new List<int>();
-
-                    while ((ln = file.ReadLine()) != null)
-                    {
-                        Console.WriteLine(ln);
-
-                        var opponentInput = ln.First(c => c is 'A' or 'B' or 'C');
-                        var other = GetEnumFromInput(opponentInput);
-
-                        var myInput = ln.First(c => c is 'X' or 'Y' or 'Z');
-                        var me = GetEnumFromInput(myInput);
-
-                        var score = GetScore(me) + GetWin(me, other);
-                        scoresPerRound.Add(score);
-                    }
-
-                    file.Close();
-
-
-                    var result = scoresPerRound.Sum();
-                    Console.WriteLine($"result: {result}");
-
-                }
-            }
+            var result = scoresPerRound.Sum();
+            Console.WriteLine($"star 1 result: {result}");
         }
 
-        public static void PlayForStar2(bool useExampleInput = false)
+        public override void PlayForStar2(bool useExampleInput = false)
         {
-            var textFile = Play2022Solutions.GetInputFile(2, useExampleInput);
+            var lines = GetInputTextByLine(useExampleInput);
 
-            if (File.Exists(textFile))
-            {
-                using (StreamReader file = new StreamReader(textFile))
-                {
-                    string ln;
+            var scoresPerRound = lines
+                .Select(line => GetScoreForRound(line, GetNeededPlayFromInput))
+                .ToList();
 
-                    var scoresPerRound = new List<int>();
-
-                    while ((ln = file.ReadLine()) != null)
-                    {
-                        Console.WriteLine(ln);
-
-                        var opponentInput = ln.First(c => c is 'A' or 'B' or 'C');
-                        var other = GetEnumFromInput(opponentInput);
-
-                        var myInput = ln.First(c => c is 'X' or 'Y' or 'Z');
-                        var me = GetNeededPlayFromInput(myInput, other);
-
-                        var score = GetScore(me) + GetWin(me, other);
-                        scoresPerRound.Add(score);
-                    }
-
-                    file.Close();
-
-
-                    var result = scoresPerRound.Sum();
-                    Console.WriteLine($"result: {result}");
-
-                }
-            }
+            var result = scoresPerRound.Sum();
+            Console.WriteLine($"star 2 result: {result}");
         }
 
-        private static RockPaperScissorsEnum GetEnumFromInput(char input)
+        private static int GetScoreForRound(string line, Func<char, RockPaperScissorsAction, RockPaperScissorsAction> getMyActionFromInputAndOpponentAction)
+        {
+            Console.WriteLine(line);
+
+            var opponentInput = line.First(c => c is 'A' or 'B' or 'C');
+            var other = GetActionFromInput(opponentInput);
+
+            var myInput = line.First(c => c is 'X' or 'Y' or 'Z');
+            var me = getMyActionFromInputAndOpponentAction(myInput, other);
+
+            return GetScore(me) + GetWin(me, other);
+        }
+
+        private static RockPaperScissorsAction GetActionFromInput(char input)
         {
             switch (input)
             {
                 case 'A':
                 case 'X':
-                    return RockPaperScissorsEnum.Rock;
+                    return RockPaperScissorsAction.Rock;
                 case 'B':
                 case 'Y':
-                    return RockPaperScissorsEnum.Paper;
+                    return RockPaperScissorsAction.Paper;
                 case 'C':
                 case 'Z':
-                    return RockPaperScissorsEnum.Scissors;
+                    return RockPaperScissorsAction.Scissors;
             }
 
-            return RockPaperScissorsEnum.Rock;
+            return RockPaperScissorsAction.Rock;
         }
 
-        private static RockPaperScissorsEnum GetNeededPlayFromInput(char input, RockPaperScissorsEnum other)
+        private static RockPaperScissorsAction GetNeededPlayFromInput(char input, RockPaperScissorsAction other)
         {
             switch (input)
             {
                 // lose
                 case 'X':
-                    return Enum.GetValues<RockPaperScissorsEnum>().First(me => GetWin(me, other) == 0);
+                    return Enum.GetValues<RockPaperScissorsAction>().First(me => GetWin(me, other) == 0);
                 // draw
                 case 'Y':
-                    return Enum.GetValues<RockPaperScissorsEnum>().First(me => GetWin(me, other) == 3);
+                    return Enum.GetValues<RockPaperScissorsAction>().First(me => GetWin(me, other) == 3);
                 // win
                 case 'Z':
-                    return Enum.GetValues<RockPaperScissorsEnum>().First(me => GetWin(me, other) == 6);
+                    return Enum.GetValues<RockPaperScissorsAction>().First(me => GetWin(me, other) == 6);
             }
 
-            return RockPaperScissorsEnum.Rock;
+            return RockPaperScissorsAction.Rock;
         }
 
-        private static int GetScore(RockPaperScissorsEnum e)
+        private static int GetScore(RockPaperScissorsAction e)
         {
             switch (e)
             {
-                case RockPaperScissorsEnum.Rock:
+                case RockPaperScissorsAction.Rock:
                     return 1;
-                case RockPaperScissorsEnum.Paper:
+                case RockPaperScissorsAction.Paper:
                     return 2;
-                case RockPaperScissorsEnum.Scissors:
+                case RockPaperScissorsAction.Scissors:
                     return 3;
             }
 
             return 0;
         }
 
-        private static int GetWin(RockPaperScissorsEnum me, RockPaperScissorsEnum other)
+        private static int GetWin(RockPaperScissorsAction me, RockPaperScissorsAction other)
         {
-            if (me == RockPaperScissorsEnum.Rock && other == RockPaperScissorsEnum.Paper)
+            if (me == RockPaperScissorsAction.Rock && other == RockPaperScissorsAction.Paper)
             {
                 return 0;
             }
 
-            if (me < other || me == RockPaperScissorsEnum.Paper && other == RockPaperScissorsEnum.Rock)
+            if (me < other || me == RockPaperScissorsAction.Paper && other == RockPaperScissorsAction.Rock)
             {
                 return 6;
             }
@@ -145,7 +113,7 @@
             return 0;
         }
 
-        private enum RockPaperScissorsEnum
+        private enum RockPaperScissorsAction
         {
             Rock,
             Scissors,

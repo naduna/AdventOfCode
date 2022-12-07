@@ -1,11 +1,9 @@
-﻿using ConsoleAppSolutions.Year2022.Day5;
-using ConsoleAppSolutions.Year2022.Day6;
-using ConsoleAppSolutions.Year2022.Day7;
+﻿namespace ConsoleAppSolutions;
 
 public class Program
 {
     private static void Main(string[] args)
     {
-        NoSpaceLeftOnDevice.PlayForStar2();
+        SolutionPlayer.Play2022SolutionsByDay(7);
     }
 }

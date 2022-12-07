@@ -1,72 +1,48 @@
 ﻿namespace ConsoleAppSolutions.Year2022.Day4
 {
-    public static class CampCleanup
+    public class CampCleanup : DayQuizBase
     {
-        public static void PlayForStar1(bool useExampleInput = false)
+        public override int Year => 2022;
+        public override int Day => 4;
+
+        public override void PlayForStar1(bool useExampleInput = false)
         {
-            var textFile = Play2022Solutions.GetInputFile(4, useExampleInput);
-
-            if (File.Exists(textFile))
-            {
-                using (StreamReader file = new StreamReader(textFile))
-                {
-                    string ln;
-
-                    var countOfPairsWithOverlappingRange = 0;
-
-                    while ((ln = file.ReadLine()) != null)
-                    {
-                        var pairs = ln.Split(',');
-                        var first = GetRange(pairs[0]);
-                        var second = GetRange(pairs[1]);
-
-                        if (GetIsContained(first, second) || GetIsContained(second, first))
-                        {
-                            countOfPairsWithOverlappingRange++;
-                        }
-                    }
-
-                    file.Close();
-
-                    Console.WriteLine($"star 1 result: {countOfPairsWithOverlappingRange}");
-                }
-            }
+            var countContaining = GetCountOfOverlappingPairsByCondition(useExampleInput, GetIsContained);
+            
+            Console.WriteLine($"star 1 result: {countContaining}");
         }
 
-        public static void PlayForStar2(bool useExampleInput = false)
+        public override void PlayForStar2(bool useExampleInput = false)
         {
-            var textFile = Play2022Solutions.GetInputFile(4, useExampleInput);
+            var countOverlapping = GetCountOfOverlappingPairsByCondition(useExampleInput, GetIsOverlapping);
 
-            if (File.Exists(textFile))
+            Console.WriteLine($"star 2 result: {countOverlapping}");
+        }
+
+        private int GetCountOfOverlappingPairsByCondition(bool useExampleInput, Func<(int from, int to), (int from, int to), bool> shouldIncreaseFunc)
+        {
+            var lines = GetInputTextByLine(useExampleInput);
+
+            var countOfPairsWithOverlappingRange = 0;
+
+            foreach (var line in lines)
             {
-                using (StreamReader file = new StreamReader(textFile))
+                var pairs = line.Split(',');
+                var first = GetRange(pairs[0]);
+                var second = GetRange(pairs[1]);
+
+                if (shouldIncreaseFunc(first, second) || shouldIncreaseFunc(second, first))
                 {
-                    string ln;
-
-                    var countOfPairsWithOverlappingRange = 0;
-
-                    while ((ln = file.ReadLine()) != null)
-                    {
-                        var pairs = ln.Split(',');
-                        var first = GetRange(pairs[0]);
-                        var second = GetRange(pairs[1]);
-
-                        if (GetIsOverlapping(first, second) || GetIsOverlapping(second, first))
-                        {
-                            countOfPairsWithOverlappingRange++;
-                        }
-                    }
-
-                    file.Close();
-
-                    Console.WriteLine($"star 2 result: {countOfPairsWithOverlappingRange}");
+                    countOfPairsWithOverlappingRange++;
                 }
             }
+
+            return countOfPairsWithOverlappingRange;
         }
 
         private static (int from, int to) GetRange(string input)
         {
-            var numbers = input.Split('-').Select(s => int.Parse(s));
+            var numbers = input.Split('-').Select(int.Parse).ToArray();
             return (numbers.First(), numbers.Last());
         }
 

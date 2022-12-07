@@ -1,147 +1,111 @@
-﻿using System.Text.RegularExpressions;
-
-namespace ConsoleAppSolutions.Year2022.Day7
+﻿namespace ConsoleAppSolutions.Year2022.Day7
 {
-    public static class NoSpaceLeftOnDevice
+    public class NoSpaceLeftOnDevice : DayQuizBase
     {
-        public static void PlayForStar1(bool useExampleInput = false)
+        public override int Year => 2022;
+        public override int Day => 7;
+
+        public override void PlayForStar1(bool useExampleInput = false)
         {
-            var textFile = Play2022Solutions.GetInputFile(7, useExampleInput);
+            var rootDirectory = GetFullyDiscoveredRootDirectory(useExampleInput);
 
-            if (File.Exists(textFile))
-            {
-                using (StreamReader file = new StreamReader(textFile))
-                {
-                    var rootDirectory = new Directory("/", null);
-                    var currentDirectory = rootDirectory;
-
-                    var commands = file.ReadToEnd().Split('$').Skip(1);
-
-                    foreach (var command in commands)
-                    {
-                        var lines = command.Split("\r\n");
-                        var commandLine = lines.First().Trim();
-                        if (commandLine.StartsWith("cd"))
-                        {
-                            currentDirectory = currentDirectory.ParseChangeDirectoryInput(commandLine, rootDirectory);
-                        }
-                        else if (commandLine.StartsWith("ls"))
-                        {
-                            currentDirectory.FillDirectory(lines.Skip(1).Where(l => !string.IsNullOrEmpty(l)));
-                        }
-                    }
-
-                    file.Close();
-
-                    var totalTotal = rootDirectory.GetTotalSize();
-                    Console.WriteLine($"total total: {totalTotal}");
-
-                    var result = rootDirectory.GetFilteredDirectories(100000, true).Sum(d => d.GetTotalSize());
-                    Console.WriteLine($"star 1 result: {result}");
-                }
-            }
+            var result = rootDirectory.GetFilteredDirectories(100000, DirectoryFilterForSizeBy.Max).Sum(d => d.GetTotalSize());
+            Console.WriteLine($"star 1 result: {result}");
         }
 
-        public static void PlayForStar2(bool useExampleInput = false)
+        public override void PlayForStar2(bool useExampleInput = false)
         {
-            var textFile = Play2022Solutions.GetInputFile(7, useExampleInput);
+            var rootDirectory = GetFullyDiscoveredRootDirectory(useExampleInput);
 
-            if (File.Exists(textFile))
-            {
-                using (StreamReader file = new StreamReader(textFile))
-                {
-                    var rootDirectory = new Directory("/", null);
-                    var currentDirectory = rootDirectory;
+            var totalUsed = rootDirectory.GetTotalSize();
+            Console.WriteLine($"total used: {totalUsed}");
 
-                    var commands = file.ReadToEnd().Split('$').Skip(1);
+            const int totalAvailableDiskSpace = 70000000;
+            const int minNeededDiskSpace = 30000000;
 
-                    foreach (var command in commands)
-                    {
-                        var lines = command.Split("\r\n");
-                        var commandLine = lines.First().Trim();
-                        if (commandLine.StartsWith("cd"))
-                        {
-                            currentDirectory = currentDirectory.ParseChangeDirectoryInput(commandLine, rootDirectory);
-                        }
-                        else if (commandLine.StartsWith("ls"))
-                        {
-                            currentDirectory.FillDirectory(lines.Skip(1).Where(l => !string.IsNullOrEmpty(l)));
-                        }
-                    }
+            var freeDiskSpace = totalAvailableDiskSpace - totalUsed;
+            var toBeDeleted = minNeededDiskSpace - freeDiskSpace;
+            var possibleDirectories = rootDirectory.GetFilteredDirectories(toBeDeleted, DirectoryFilterForSizeBy.Min);
 
-                    file.Close();
-
-                    var totalUsed = rootDirectory.GetTotalSize();
-                    Console.WriteLine($"total used: {totalUsed}");
-
-                    var totalAvailableDiskSpace = 70000000;
-                    var minNeededDiskSpace = 30000000;
-                    var freeDiskSpace = totalAvailableDiskSpace - totalUsed;
-                    var toBeDeleted = minNeededDiskSpace - freeDiskSpace;
-                    var possibleDirectories = rootDirectory.GetFilteredDirectories(toBeDeleted, false);
-
-                    var result = possibleDirectories.MinBy(d => d.GetTotalSize());
-                    Console.WriteLine($"star 2 result: {result.Name} {result.GetTotalSize()}");
-                }
-            }
+            var result = possibleDirectories.MinBy(d => d.GetTotalSize());
+            Console.WriteLine($"star 2 result: {result?.Name} {result?.GetTotalSize()}");
         }
 
-        private class Directory
+        private DeviceDirectory GetFullyDiscoveredRootDirectory(bool useExampleInput)
         {
-            public Directory(string name, Directory parent)
+            var rootDirectory = new DeviceDirectory("/");
+            var currentDirectory = rootDirectory;
+
+            var commands = GetInputTextComplete(useExampleInput).Split('$').Skip(1);
+
+            foreach (var command in commands)
+            {
+                var lines = command.Split("\r\n");
+                var commandLine = lines.First().Trim();
+                if (commandLine.StartsWith("cd"))
+                {
+                    currentDirectory = currentDirectory.ParseChangeDirectoryInput(commandLine, rootDirectory);
+                }
+                else if (commandLine.StartsWith("ls"))
+                {
+                    currentDirectory.FillDirectoryWithListedItems(lines.Skip(1).Where(l => !string.IsNullOrEmpty(l)));
+                }
+            }
+
+            return rootDirectory;
+        }
+
+        private class DeviceDirectory
+        {
+            public DeviceDirectory(string name, DeviceDirectory? parent = null)
             {
                 Name = name;
                 Parent = parent;
             }
 
-            public Directory Parent { get; set; }
+            public string Name { get; }
 
-            public string Name { get; set; }
+            private DeviceDirectory? Parent { get; }
 
-            public List<(long size, string name)> Files { get; set; } = new();
+            private List<(long size, string name)> Files { get; } = new();
 
-            public List<Directory> Children { get; set; } = new();
+            private List<DeviceDirectory> Children { get; } = new();
 
-            public Directory MoveOut()
+            public DeviceDirectory ParseChangeDirectoryInput(string command, DeviceDirectory rootDirectory)
+            {
+                var commandInput = command.Replace("cd", "").Trim();
+                return commandInput switch
+                {
+                    ".." => MoveOut() ?? rootDirectory,
+                    "/" => rootDirectory,
+                    _ => MoveInToChild(commandInput)
+                };
+            }
+
+            private DeviceDirectory? MoveOut()
             {
                 return Parent;
             }
 
-            public Directory GoToChild(string name)
+            private DeviceDirectory MoveInToChild(string name)
             { 
                 var child = Children.FirstOrDefault(c => c.Name == name);
                 if (child == null)
                 {
-                    return new Directory(name, this);
+                    return new DeviceDirectory(name, this);
                 }
 
                 return child;
             }
 
-            public Directory ParseChangeDirectoryInput(string input, Directory rootDirectory)
+            public void FillDirectoryWithListedItems(IEnumerable<string> listedItems)
             {
-                var stripped = Regex.Replace(input, @"cd", "").Trim();
-                if (stripped == "..")
+                foreach (var item in listedItems)
                 {
-                    return MoveOut();
-                }
-
-                if (stripped == "/")
-                {
-                    return rootDirectory;
-                }
-
-                return GoToChild(stripped);
-            }
-
-            public void FillDirectory(IEnumerable<string> listedThings)
-            {
-                foreach (var listedThing in listedThings)
-                {
-                    var infos = listedThing.Split(' ');
+                    var infos = item.Split(' ');
                     if (infos[0] == "dir")
                     {
-                        Children.Add(new Directory(infos[1], this));
+                        Children.Add(new DeviceDirectory(infos[1], this));
                     }
                     else
                     {
@@ -152,7 +116,7 @@ namespace ConsoleAppSolutions.Year2022.Day7
 
             public long GetTotalSize()
             {
-                var filesSize = GetDirectFilesSize();
+                var filesSize = Files.Sum(f => f.size);
                 foreach (var child in Children)
                 {
                     filesSize += child.GetTotalSize();
@@ -161,34 +125,38 @@ namespace ConsoleAppSolutions.Year2022.Day7
                 return filesSize;
             }
 
-            public long GetDirectFilesSize() => Files.Sum(f => f.size);
-
-            public bool FilterForSize(long size, bool lookForMaxElseMin)
+            public List<DeviceDirectory> GetFilteredDirectories(long size, DirectoryFilterForSizeBy filterForSizeBy)
             {
-                if (lookForMaxElseMin)
-                {
-                    return GetTotalSize() <= size;
-                }
+                var filteredDirectories = new List<DeviceDirectory>();
 
-                return GetTotalSize() >= size;
-            }
-
-            public List<Directory> GetFilteredDirectories(long size, bool lookForMaxElseMin)
-            {
-                var filteredDirectories = new List<Directory>();
-
-                if (FilterForSize(size, lookForMaxElseMin))
+                if (FilterForSize(size, filterForSizeBy))
                 {
                     filteredDirectories.Add(this);
                 }
 
                 foreach (var child in Children)
                 {
-                    filteredDirectories.AddRange(child.GetFilteredDirectories(size, lookForMaxElseMin));
+                    filteredDirectories.AddRange(child.GetFilteredDirectories(size, filterForSizeBy));
                 }
 
                 return filteredDirectories;
             }
+
+            private bool FilterForSize(long size, DirectoryFilterForSizeBy filterForSizeBy)
+            {
+                return filterForSizeBy switch
+                {
+                    DirectoryFilterForSizeBy.Max => GetTotalSize() <= size,
+                    DirectoryFilterForSizeBy.Min => GetTotalSize() >= size,
+                    _ => throw new ArgumentException()
+                };
+            }
+        }
+
+        private enum DirectoryFilterForSizeBy
+        {
+            Max,
+            Min
         }
     }
 }
