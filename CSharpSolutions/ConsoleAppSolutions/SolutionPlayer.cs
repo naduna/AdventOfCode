@@ -6,6 +6,7 @@ using ConsoleAppSolutions.Year2022.Day4;
 using ConsoleAppSolutions.Year2022.Day5;
 using ConsoleAppSolutions.Year2022.Day6;
 using ConsoleAppSolutions.Year2022.Day7;
+using ConsoleAppSolutions.Year2022.Day8;
 
 namespace ConsoleAppSolutions
 {
@@ -47,6 +48,9 @@ namespace ConsoleAppSolutions
                     break;
                 case 7:
                     PlayBothStars<NoSpaceLeftOnDevice>();
+                    break;
+                case 8:
+                    PlayBothStars<TreetopTreeHouse>();
                     break;
                 default:
                     throw new NotImplementedException(); // not yet :D
