@@ -27,9 +27,9 @@
 
             foreach (var line in lines)
             {
-                var pairs = line.Split(',');
-                var first = GetRange(pairs[0]);
-                var second = GetRange(pairs[1]);
+                var elfPairs = line.Split(',');
+                var first = GetRange(elfPairs[0]);
+                var second = GetRange(elfPairs[1]);
 
                 if (shouldIncreaseFunc(first, second) || shouldIncreaseFunc(second, first))
                 {

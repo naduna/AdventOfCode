@@ -13,9 +13,12 @@
             foreach (var line in lines)
             {
                 var half = line.Length / 2;
+                var allToSecondLast = line[..^2];
+                var exactlySecondLast = line[^2];
                 var firstCompartment = line[..half];
                 var secondCompartment = line[half..];
 
+                var duplicateAlt = firstCompartment.Intersect(secondCompartment);
                 var duplicate = firstCompartment.FirstOrDefault(secondCompartment.Contains);
                 priorityOfDuplicateItemPerRucksack.Add(GetPriority(duplicate));
             }

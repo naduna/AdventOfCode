@@ -85,6 +85,8 @@
 
         private static (int countOfCratesToMove, int moveCrateFromStack, int moveCrateToStack) ReadInstructions(string command)
         {
+            //var instructionRegex = "^move (d+) from (d+) to (d+)$";
+            //var instructionsByRegex;
             var instructions = command.Split(' ')
                 .Where(c => int.TryParse(c, out _))
                 .Select(int.Parse)

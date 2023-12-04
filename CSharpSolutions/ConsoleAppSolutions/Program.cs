@@ -4,7 +4,7 @@
     {
         private static void Main(string[] args)
         {
-            SolutionPlayer.Play2022SolutionsByDay(8);
+            SolutionPlayer.Play2022SolutionsByDay(6);
         }
     }
 }

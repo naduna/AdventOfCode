@@ -1,5 +1,8 @@
 ﻿using ConsoleAppSolutions.Year2022;
 using ConsoleAppSolutions.Year2022.Day1;
+using ConsoleAppSolutions.Year2022.Day10;
+using ConsoleAppSolutions.Year2022.Day12;
+using ConsoleAppSolutions.Year2022.Day19;
 using ConsoleAppSolutions.Year2022.Day2;
 using ConsoleAppSolutions.Year2022.Day3;
 using ConsoleAppSolutions.Year2022.Day4;
@@ -7,6 +10,7 @@ using ConsoleAppSolutions.Year2022.Day5;
 using ConsoleAppSolutions.Year2022.Day6;
 using ConsoleAppSolutions.Year2022.Day7;
 using ConsoleAppSolutions.Year2022.Day8;
+using ConsoleAppSolutions.Year2022.Day9;
 
 namespace ConsoleAppSolutions
 {
@@ -51,6 +55,22 @@ namespace ConsoleAppSolutions
                     break;
                 case 8:
                     PlayBothStars<TreetopTreeHouse>();
+                    break;
+                case 9:
+                    new RopeBridge().PlayForStar2(true);
+                    //PlayBothStars<RopeBridge>();
+                    break;
+                case 10:
+                    new CathodeRayTube().PlayForStar1(true);
+                    //PlayBothStars<CathodeRayTube>();
+                    break;
+                case 12:
+                    new HillClimbingAlgorithm().PlayForStar1();
+                    //PlayBothStars<CathodeRayTube>();
+                    break;
+                case 19:
+                    new NotEnoughMinerals().PlayForStar1(true);
+                    //PlayBothStars<CathodeRayTube>();
                     break;
                 default:
                     throw new NotImplementedException(); // not yet :D

@@ -22,7 +22,7 @@
             var allText = GetInputTextComplete(useExampleInput);
 
             var codes = new Queue<char>();
-            var currentIndex = 0;
+            var currentIndex = neededConsecutiveMarkers;
 
             for (; currentIndex < allText.Length; currentIndex++)
             {
@@ -33,6 +33,7 @@
                 {
                     if (codes.Distinct().Count() == neededConsecutiveMarkers)
                     {
+                        // possibility to use HashSet: each element can only be contained once
                         break;
                     }
 
