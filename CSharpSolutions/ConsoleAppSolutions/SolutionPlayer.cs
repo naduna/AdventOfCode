@@ -11,6 +11,7 @@ using ConsoleAppSolutions.Year2022.Day6;
 using ConsoleAppSolutions.Year2022.Day7;
 using ConsoleAppSolutions.Year2022.Day8;
 using ConsoleAppSolutions.Year2022.Day9;
+using ConsoleAppSolutions.Year2023.Day1;
 
 namespace ConsoleAppSolutions
 {
@@ -22,6 +23,9 @@ namespace ConsoleAppSolutions
             {
                 case 2022:
                     Play2022SolutionsByDay(day);
+                    break;
+                case 2023:
+                    Play2023SolutionsByDay(day);
                     break;
                 default:
                     throw new NotImplementedException(); // not yet :D
@@ -71,6 +75,18 @@ namespace ConsoleAppSolutions
                 case 19:
                     new NotEnoughMinerals().PlayForStar1(true);
                     //PlayBothStars<CathodeRayTube>();
+                    break;
+                default:
+                    throw new NotImplementedException(); // not yet :D
+            }
+        }
+
+        public static void Play2023SolutionsByDay(int day)
+        {
+            switch (day)
+            {
+                case 1:
+                    PlayBothStars<Trebuchet>();
                     break;
                 default:
                     throw new NotImplementedException(); // not yet :D
